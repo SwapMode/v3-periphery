@@ -4,6 +4,12 @@ import '@nomiclabs/hardhat-waffle'
 import 'hardhat-typechain'
 import 'hardhat-watcher'
 
+import { config } from 'dotenv'
+
+config()
+
+const accounts = [process.env.DEV_KEY]
+
 const LOW_OPTIMIZER_COMPILER_SETTINGS = {
   version: '0.7.6',
   settings: {
@@ -54,35 +60,67 @@ export default {
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
-    ropsten: {
-      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
-    rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
     goerli: {
       url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-    },
-    kovan: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     arbitrumRinkeby: {
       url: `https://arbitrum-rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     arbitrum: {
-      url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      url: `${process.env.ARBITRUM_RPC}`,
+      accounts,
+    },
+    arbitrum_goerli: {
+      url: process.env.ARBITRUM_GOERLI_RPC || '',
+      accounts,
+      chainId: 421613,
     },
     optimismKovan: {
       url: `https://optimism-kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
     },
     optimism: {
-      url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      url: `${process.env.OPTIMISM_RPC}`,
+      accounts,
+    },
+    base: {
+      url: process.env.BASE_RPC || '',
+      accounts,
+      chainId: 8453,
+      // gas: 500000,
+      // gasPrice: 100,
+    },
+    base_goerli: {
+      url: process.env.BASE_GOERLI_RPC,
+      accounts,
+      chainId: 84531,
+      // gas: 500000,
+      // gasPrice: 100,
+    },
+    mode: {
+      url: process.env.MODE_RPC,
+      accounts,
+      chainId: 34443,
+    },
+    modeTestnet: {
+      url: process.env.MODE_TESTNET_RPC,
+      accounts,
+      chainId: 919,
     },
   },
   etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: {
+      mode: 'mode', // apiKey is not required, just set a placeholder
+    },
+    customChains: [
+      {
+        network: 'mode',
+        chainId: 34443,
+        urls: {
+          apiURL: 'https://api.routescan.io/v2/network/mainnet/evm/34443/etherscan',
+          browserURL: 'https://modescan.io',
+        },
+      },
+    ],
   },
   solidity: {
     compilers: [DEFAULT_COMPILER_SETTINGS],

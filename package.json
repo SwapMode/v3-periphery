@@ -37,13 +37,14 @@
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@nomiclabs/hardhat-etherscan": "^2.1.8",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@typechain/ethers-v5": "^4.0.0",
     "@types/chai": "^4.2.6",
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
     "decimal.js": "^10.2.1",
+    "dotenv": "^16.0.3",
     "ethereum-waffle": "^3.0.2",
     "ethers": "^5.0.8",
     "hardhat": "^2.6.8",
@@ -62,7 +63,9 @@
     "typescript": "^3.7.3"
   },
   "scripts": {
-    "compile": "hardhat compile",
-    "test": "hardhat test"
+    "build": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "deploy": "npx hardhat run ./scripts/deploy.ts --network",
+    "start": "npx hardhat node"
   }
 }
