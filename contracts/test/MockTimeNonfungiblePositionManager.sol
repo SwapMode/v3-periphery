@@ -3,6 +3,7 @@ pragma solidity =0.7.6;
 pragma abicoder v2;
 
 import '../NonfungiblePositionManager.sol';
+import '../interfaces/IProtocolToken.sol';
 
 contract MockTimeNonfungiblePositionManager is NonfungiblePositionManager {
     uint256 time;
@@ -10,8 +11,9 @@ contract MockTimeNonfungiblePositionManager is NonfungiblePositionManager {
     constructor(
         address _factory,
         address _WETH9,
-        address _tokenDescriptor
-    ) NonfungiblePositionManager(_factory, _WETH9, _tokenDescriptor) {}
+        address _tokenDescriptor,
+        IProtocolToken _protocolToken
+    ) NonfungiblePositionManager(_factory, _WETH9, _tokenDescriptor, _protocolToken) {}
 
     function _blockTimestamp() internal view override returns (uint256) {
         return time;

@@ -3,11 +3,16 @@ pragma solidity =0.7.6;
 pragma abicoder v2;
 
 import '../SwapRouter.sol';
+import '../interfaces/IProtocolToken.sol';
 
 contract MockTimeSwapRouter is SwapRouter {
     uint256 time;
 
-    constructor(address _factory, address _WETH9) SwapRouter(_factory, _WETH9) {}
+    constructor(
+        address _factory,
+        address _WETH9,
+        IProtocolToken _protocolToken
+    ) SwapRouter(_factory, _WETH9, _protocolToken) {}
 
     function _blockTimestamp() internal view override returns (uint256) {
         return time;
