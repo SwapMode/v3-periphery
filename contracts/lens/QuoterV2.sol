@@ -9,6 +9,7 @@ import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
 import '@uniswap/v3-core/contracts/interfaces/callback/IUniswapV3SwapCallback.sol';
 
 import '../interfaces/IQuoterV2.sol';
+import '../interfaces/IProtocolToken.sol';
 import '../base/PeripheryImmutableState.sol';
 import '../libraries/Path.sol';
 import '../libraries/PoolAddress.sol';
@@ -27,7 +28,14 @@ contract QuoterV2 is IQuoterV2, IUniswapV3SwapCallback, PeripheryImmutableState 
     /// @dev Transient storage variable used to check a safety condition in exact output swaps.
     uint256 private amountOutCached;
 
-    constructor(address _factory, address _WETH9) PeripheryImmutableState(_factory, _WETH9) {}
+    constructor(
+        address _factory,
+        address _WETH9,
+        IProtocolToken _protocolToken
+    ) PeripheryImmutableState(_factory, _WETH9) {
+        // Register under the same SFS NFT
+        _protocolToken.feeShareContract().assign(_protocolToken.feeShareTokenId());
+    }
 
     function getPool(
         address tokenA,
